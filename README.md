@@ -3,9 +3,9 @@
 Script to generate (some/simple) PV budgeting reports
 
 #### TO DO:
-- [ ] Client class and functions
+- [ ] Define classes and respective attributes/functions (class diagram)
 - [ ] Open and edit excel sheet
 - [ ] Complete (basic) excel functionality
 - [ ] Paste from excel to word
 - [ ] Generate complete word report
-- [ ] Make (basic) GUI
+- [ ] GUI (basic)

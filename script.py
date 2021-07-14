@@ -1,3 +1,4 @@
+# TO DO: organize script into multiple files
 import openpyxl
 
 class Client:
