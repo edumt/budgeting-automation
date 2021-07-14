@@ -3,6 +3,7 @@
 _test_
 
 [ ] t
-
+ - t
+ - 
 [x] t
 test
