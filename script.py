@@ -1,4 +1,6 @@
+# https://automatetheboringstuff.com/chapter12/
 # TO DO: organize script into multiple files
+
 import openpyxl
 
 statesDict = {
@@ -15,10 +17,15 @@ class Client:
         self.state = state.upper() # State initials
         self.city = city.upper() # (District-)City
     
+def populateSheet(client):
+    print(client.name)
+
+def generateReport():
+    pass
+
 test_client = Client('Eduardo Moura Tavares', 500, 'ES', 'Praia de Itaparica-Vila Velha')
 #print(vars(test_client))
-
-
+populateSheet(test_client)
 
 wb = openpyxl.load_workbook('excel_template.xlsx')
 #print(wb.sheetnames)
