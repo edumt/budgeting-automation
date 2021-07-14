@@ -2,21 +2,18 @@
 import openpyxl
 
 class Client:
-    def __init__(self, name, consumption, state, district = ''):
-        self.name = name
-        self.consumption = consumption
-        self.state = state
-        self.district = district
+    def __init__(self, fullName, aConsumption, state, city = ''):
+        self.name = fullName.upper()
+        self.aConsumption = aConsumption # Average consumption [kWh/month]
+        self.state = state.upper() # State initials
+        self.city = city.upper() # (District-)City
     
-test_client = Client('EDUARDO MOURA TAVARES', 500, 'ES', 'PRAIA DE ITAPARICA-VILA VELHA')
-print(vars(test_client))
-#consumption = 500 # Consumo em kWh/mes
-#name = 'EDUARDO MOURA TAVARES' # NOME COMPLETO (Caps Lock)
+test_client = Client('Eduardo Moura Tavares', 500, 'ES', 'Praia de Itaparica-Vila Velha')
+#print(vars(test_client))
 
 wb = openpyxl.load_workbook('excel_template.xlsx')
+#print(wb.sheetnames)
 
-#sheets = wb.sheetnames
-#print(sheets)
 consumption_sheet = wb['HCONSUMO']
 #print(consumption_sheet)
-print(consumption_sheet['D18'].value)
+#print(consumption_sheet['D18'].value)
