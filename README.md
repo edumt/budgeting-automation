@@ -1,9 +1,3 @@
-# Teste
-*test*
-_test_
+# BVK Eneriga Solar - Partial budgeting automation (in Python)
 
-[ ] t
- - t
- - 
-[x] t
-test
+Script to automate some PV budgeting cases
