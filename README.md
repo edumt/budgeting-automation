@@ -3,9 +3,9 @@
 Script to generate (some/simple) PV budgeting reports
 
 #### TO DO:
-- [x] Make states dictionary
+- [x] ~~Make states dictionary~~
 - [ ] Define classes and respective attributes/functions (class diagram)
-- [ ] Open and edit excel sheet
+- [x] ~~Open and edit excel sheet~~
 - [ ] Complete (basic) excel functionality
 - [ ] Paste from excel to word
 - [ ] Generate complete word report
