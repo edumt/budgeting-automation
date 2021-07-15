@@ -31,7 +31,7 @@ class Client:
         self.sheet = load_workbook('../excel_template.xlsx')
         
     def getDataSheet(self):
-        self.sheet = load_workbook('../excel_template.xlsx', data_only=True)
+        self.sheet = load_workbook('../test.xlsx', data_only=True)
     
     def populateSheet(self):
         #print(sheet.sheetnames)
@@ -60,13 +60,38 @@ class Client:
         self.saveSheet()
         print('Success! Sheet generated.')
 
+    def getDocxTemplate(self):
+        self.docx = Document('../word_template.docx')
+
+    def docxSearchAndReplace(self, oldText, newText):
+        # TO DO: optimization, make all replacements needed in one call (use a dictionary?), so it doesn't iterate over all paragraphs for every word
+        for p in self.docx.paragraphs:
+            if oldText in p.text:
+                for r in p.runs:
+                    if oldText == r.text:
+                        r.text = newText  
+    
     def copyBudgetArea(self):
         self.getDataSheet()
 
-    def generateReport(self):
-        pass
+    def generateQuote(self):
+        self.getDocxTemplate()
+        self.docxSearchAndReplace('fullName', self.name)
+        self.docxSearchAndReplace('reference', 'TEST STRING')
+        self.docxSearchAndReplace('date', 'TEST STRING')
+        self.docxSearchAndReplace('location', (self.city + ' ' + self.state))
+        self.docxSearchAndReplace('consumption', str(self.consumption))
+        self.docx.save('../test.docx')
+        print('Success! Quote generated.')
 
-# TO DO: CLI and, eventually, a GUI
 test_client = Client('Eduardo Moura Tavares', 5000, 'ES', 'Praia de Itaparica-Vila Velha')
-#print(vars(test_client))
-test_client.generateSheet()
+#test_client.generateSheet()
+test_client.generateQuote()
+
+""" TO DO:  CLI
+            GUI
+            
+    MAYBE TO DO:
+                e-mail integration
+                whatsapp integration
+"""

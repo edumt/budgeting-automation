@@ -1,6 +1,6 @@
 ## BVK Energia Solar - Budgeting automation (in Python)
 
-Script to generate (some/simple) photovoltaic budgeting reports
+Script to generate photovoltaic systems quotes
 
 #### TO DO:
 - [x] ~~Make states dictionary~~
