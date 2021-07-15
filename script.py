@@ -64,6 +64,7 @@ class Client:
         self.docx = Document('../word_template.docx')
 
     def docxSearchAndReplace(self, oldText, newText):
+        # https://stackoverflow.com/questions/24805671/how-to-use-python-docx-to-replace-text-in-a-word-document-and-save
         # TO DO: optimization, make all replacements needed in one call (use a dictionary?), so it doesn't iterate over all paragraphs for every word
         for p in self.docx.paragraphs:
             if oldText in p.text:
@@ -85,7 +86,7 @@ class Client:
         print('Success! Quote generated.')
 
 test_client = Client('Eduardo Moura Tavares', 5000, 'ES', 'Praia de Itaparica-Vila Velha')
-#test_client.generateSheet()
+test_client.generateSheet()
 test_client.generateQuote()
 
 """ TO DO:  CLI

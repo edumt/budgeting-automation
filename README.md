@@ -3,6 +3,7 @@
 Script to generate photovoltaic systems quotes
 
 #### TO DO:
+- [ ] A proper To Do list :)
 - [x] ~~Make states dictionary~~
 - [ ] Define classes and respective attributes/functions (class diagram)
 - [x] ~~Open and edit excel sheet~~
