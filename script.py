@@ -1,5 +1,3 @@
-# https://automatetheboringstuff.com/chapter12/
-
 #import os
 #import datetime
 #from openpyxl import Workbook
