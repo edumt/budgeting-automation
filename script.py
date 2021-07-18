@@ -1,5 +1,5 @@
 import os
-#import datetime
+import datetime
 #from openpyxl import Workbook
 from openpyxl import load_workbook
 from docx import Document
@@ -73,19 +73,25 @@ class Client:
                     if oldText == r.text:
                         r.text = newText  
     
+    def getReferenceNumber():
+        #TO DO: get highest reference number on projects directory and add 1
+        pass
+    
+    def getCurrentDate(self):
+        today = datetime.date.today()
+        return today.strftime('%d/%m/%Y')
+    
     def populateDocx(self):
         self.docxSearchAndReplace('fullName', self.name)
-        self.docxSearchAndReplace('reference', 'TEST STRING') #getReferenceNumber()
-        self.docxSearchAndReplace('date', 'TEST STRING') #TO DO: get current date
+        self.docxSearchAndReplace('reference', 'TEST STRING') #not replacing all reference tags / add getReferenceNumber()
+        self.docxSearchAndReplace('date', self.getCurrentDate()) #TO DO: get current date
         if self.city == '':
             self.docxSearchAndReplace('location', statesDict[self.state])
         else:
             self.docxSearchAndReplace('location', (self.city + '/' + self.state))
         self.docxSearchAndReplace('consumption', str(self.consumption))
         
-    def getReferenceNumber():
-        #TO DO: get highest reference number on projects directory and add 1
-        pass
+    
     
     def copyBudgetArea(self):
         self.getDataSheet()
@@ -103,6 +109,9 @@ test_client = Client('Eduardo Moura Tavares', 5000, 'ES', 'Praia de Itaparica-Vi
 #test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
 #test_client.generateSheet()
 test_client.generateQuote()
+
+os.startfile('F:/Google Drive/Projetos/test.docx') #for testing purposes
+
 
 """ TO DO:  CLI
             GUI
