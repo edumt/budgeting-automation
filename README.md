@@ -10,3 +10,4 @@ Script to generate photovoltaic systems quotes
 - [ ] Finish excel functionality
 - [ ] Generate word report
 - [ ] Basic GUI
+- [ ] Documentation

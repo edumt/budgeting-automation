@@ -14,6 +14,7 @@ CONST_OPTION_3_PANEL_NUMBER_CELL = 'H11'
 CONST_BUDGET_CELL = 'B3:H32' 
 
 statesDict = {
+    # TO DO: learn about enums and determine if they make more sense than a dictionary for this
     "ES": "ESPÍRITO SANTO",
     "RJ": "RIO DE JANEIRO",
     "BA": "BAHIA",
@@ -40,7 +41,7 @@ class Client:
         self.setPanelsQuantity()
         
     def setPanelsQuantity(self):
-        # TO DO: dinamically change number of PV panels
+        # TO DO: dinamically update number of PV panels
         self.sheet['Preço SFCR-GROWATT PHONO 450Wp'][CONST_OPTION_2_PANEL_NUMBER_CELL].value =\
         (self.sheet['Preço SFCR-GROWATT PHONO 450Wp'][CONST_OPTION_1_PANEL_NUMBER_CELL].value + '+1')
             
@@ -52,7 +53,6 @@ class Client:
         #os.mkdir(('../{name}').format(name=client.name))
         #self.sheet.save(('../{name}/GERADORES-{name}-ALDO-{version}.xlsx').format(name=self.name, version=CONST_SHEET_VERSION))
         self.sheet.save('../test.xlsx')
-        #pass
     
     def generateSheet(self):
         self.getFormulaSheet()
@@ -65,7 +65,8 @@ class Client:
 
     def docxSearchAndReplace(self, oldText, newText):
         # https://stackoverflow.com/questions/24805671/how-to-use-python-docx-to-replace-text-in-a-word-document-and-save
-        # TO DO: optimization, make all replacements needed in one call (use a dictionary?), so it doesn't iterate over all paragraphs for every word
+        # TO DO: check for optimization, maybe make all replacements needed in one call (use  LIST/dictionary?), so it doesn't iterate over all paragraphs for every word
+        # maybe args and kwargs could be used here? learn a bit about them
         for p in self.docx.paragraphs:
             if oldText in p.text:
                 for r in p.runs:
@@ -80,8 +81,9 @@ class Client:
         self.docxSearchAndReplace('fullName', self.name)
         self.docxSearchAndReplace('reference', 'TEST STRING')
         self.docxSearchAndReplace('date', 'TEST STRING')
-        self.docxSearchAndReplace('location', (self.city + ' ' + self.state))
+        self.docxSearchAndReplace('location', (self.city + '/' + self.state)) #TO DO: if self.city='': statesDict[self.state]
         self.docxSearchAndReplace('consumption', str(self.consumption))
+        # TO DO: saveDocx function
         self.docx.save('../test.docx')
         print('Success! Quote generated.')
 
