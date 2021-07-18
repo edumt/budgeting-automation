@@ -1,4 +1,4 @@
-#import os
+import os
 #import datetime
 #from openpyxl import Workbook
 from openpyxl import load_workbook
@@ -73,22 +73,35 @@ class Client:
                     if oldText == r.text:
                         r.text = newText  
     
+    def populateDocx(self):
+        self.docxSearchAndReplace('fullName', self.name)
+        self.docxSearchAndReplace('reference', 'TEST STRING') #getReferenceNumber()
+        self.docxSearchAndReplace('date', 'TEST STRING') #TO DO: get current date
+        if self.city == '':
+            self.docxSearchAndReplace('location', statesDict[self.state])
+        else:
+            self.docxSearchAndReplace('location', (self.city + '/' + self.state))
+        self.docxSearchAndReplace('consumption', str(self.consumption))
+        
+    def getReferenceNumber():
+        #TO DO: get highest reference number on projects directory and add 1
+        pass
+    
     def copyBudgetArea(self):
         self.getDataSheet()
+        
+    def saveDocx(self):
+        self.docx.save('../test.docx')
 
     def generateQuote(self):
         self.getDocxTemplate()
-        self.docxSearchAndReplace('fullName', self.name)
-        self.docxSearchAndReplace('reference', 'TEST STRING')
-        self.docxSearchAndReplace('date', 'TEST STRING')
-        self.docxSearchAndReplace('location', (self.city + '/' + self.state)) #TO DO: if self.city='': statesDict[self.state]
-        self.docxSearchAndReplace('consumption', str(self.consumption))
-        # TO DO: saveDocx function
-        self.docx.save('../test.docx')
+        self.populateDocx()
+        self.saveDocx()        
         print('Success! Quote generated.')
 
 test_client = Client('Eduardo Moura Tavares', 5000, 'ES', 'Praia de Itaparica-Vila Velha')
-test_client.generateSheet()
+#test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
+#test_client.generateSheet()
 test_client.generateQuote()
 
 """ TO DO:  CLI
