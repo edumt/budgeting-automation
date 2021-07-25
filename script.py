@@ -39,14 +39,26 @@ def getCurrentDate():
     return datetime.date.today().strftime("%d/%m/%Y")
 
 
-# TO DO: change some methods to functions
+def getReferenceNumber():
+    # TO DO: get highest reference number on quotes dir and add 1
+    def filterTempFiles(name):
+        if name[0] == "9":
+            return True
+        else:
+            return False
+
+    filtered_dir_list = filter(filterTempFiles, os.listdir("../regex test"))
+    latest_file = sorted(filtered_dir_list, reverse=True)[0]
+    # TODO: regex to get latest reference number then add 1 and return it
+    return 1234
+
+
 class Client:
     def __init__(self, name, consumption, state, city=""):
         self.name = name.upper()
         self.consumption = consumption  # Average monthly energy consumption [kWh/month]
         self.state = state.upper()  # State initials, e.g. ES
         self.city = city.upper()  # (District-)City, e.g. PRAIA DE ITAPARICA-VILA VELHA
-        self.reference = 1234  # TO DO: get highest reference number on quotes dir and add 1 -> getReferenceNumber()
 
     def populateSheet(self):
         self.sheet[CONSUMPTION_TABLE][CONSUMPTION].value = self.consumption
@@ -102,7 +114,7 @@ class Client:
 
     def populateDocx(self):
         self.docxSearchAndReplace("fullName", self.name)
-        self.docxSearchAndReplace("reference", str(self.reference))  # not replacing all reference tags
+        self.docxSearchAndReplace("reference", str(getReferenceNumber()))  # not replacing all reference tags
         self.docxSearchAndReplace("date", getCurrentDate())
         if self.city == "":
             self.docxSearchAndReplace("location", statesDict[self.state])
