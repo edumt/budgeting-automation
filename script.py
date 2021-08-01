@@ -1,7 +1,5 @@
 import os
 import datetime
-
-# from openpyxl import Workbook
 from openpyxl import load_workbook
 from docx import Document
 
@@ -17,7 +15,7 @@ PRICE_ADJUSTMENT = "H44"  # TODO: dinamically adjust price
 OPTION_1 = "D11"
 OPTION_2 = "F11"
 OPTION_3 = "H11"
-QUOTE_AREA = "B3:H32"
+# QUOTE_AREA = "B3:H32"
 
 statesDict = {
     "ES": "ESPÍRITO SANTO",
@@ -40,14 +38,13 @@ def getCurrentDate():
 
 
 def getReferenceNumber():
-    # TO DO: get highest reference number on quotes dir and add 1
     def filterTempFiles(name):
         if name[0] == "9":
             return True
         else:
             return False
 
-    filtered_dir_list = filter(filterTempFiles, os.listdir("../regex test"))
+    filtered_dir_list = filter(filterTempFiles, os.listdir("../DOCS"))
     latest_file = sorted(filtered_dir_list, reverse=True)[0]
     # TODO: regex to get latest reference number then add 1 and return it
     return 1234
@@ -59,10 +56,11 @@ class Client:
         self.consumption = consumption  # Average monthly energy consumption [kWh/month]
         self.state = state.upper()  # State initials, e.g. ES
         self.city = city.upper()  # (District-)City, e.g. PRAIA DE ITAPARICA-VILA VELHA
+        self.reference = getReferenceNumber()
 
     def populateSheet(self):
         self.sheet[CONSUMPTION_TABLE][CONSUMPTION].value = self.consumption
-        self.sheet[CONSUMPTION_TABLE][NAME].value = "CLIENTE: {name}".format(name=self.name)
+        self.sheet[CONSUMPTION_TABLE][NAME].value = f"CLIENTE: {self.name}"
         self.setPanelsQuantity()
 
     def setPanelsQuantity(self):
@@ -86,14 +84,19 @@ class Client:
             self.sheet[INVERTER_PANEL][OPTION_3].value = NEAREST_PANELS
 
     def saveSheet(self):
-        # TO DO: learn mkdir() and/or save() best practices, what to do when dir/file aready exists, exception handling etc
-        # os.mkdir(('../{name}').format(name=client.name))
-        # self.sheet.save(('../{name}/GERADORES-{name}-ALDO-{version}.xlsx').format(name=self.name, version=SHEET_VERSION))
-        # self.sheet.active = self.sheet[INVERTER_PANEL]
+        # try:
+        #    # f"../{statesDict[self.state]}/{self.name}""
+        #    os.mkdir(f"../SHEETS/{self.name}")
+        # except OSError as error:
+        #   if error.errno == 17:
+        #      # If directory already exists do nothing
+        #     pass
+        # else:
+        #   # prob just raise exception again instead of printing
+        #   raise
+        #    #print(error)
+        # self.sheet.save(f"../SHEETS/{self.name}/GERADORES-{self.name}-ALDO-{SHEET_VERSION}.xlsx")
         self.sheet.save("../test.xlsx")
-
-    def getDataSheet(self):
-        self.sheet = load_workbook("../test.xlsx", data_only=True)
 
     def generateSheet(self):
         self.sheet = getFormulaSheet()
@@ -101,11 +104,10 @@ class Client:
         self.saveSheet()
         print("Success! Sheet generated.")
 
-    def docxSearchAndReplace(self, oldText, newText):
-        # reference: https://stackoverflow.com/questions/24805671/how-to-use-python-docx-to-replace-text-in-a-word-document-and-save
-        # TO DO: learn about args and kwargs
+    def getDataSheet(self):
+        self.sheet = load_workbook("../test.xlsx", data_only=True)
 
-        # TO DO: function not working properly, missing some replaces
+    def docxSearchAndReplace(self, oldText, newText):
         for p in self.docx.paragraphs:
             if oldText in p.text:
                 for r in p.runs:
@@ -123,17 +125,10 @@ class Client:
                 "location",
                 (self.city + "/" + self.state),
             )
-        self.docxSearchAndReplace(
-            "consumption", str(self.consumption)
-        )  # https://stackoverflow.com/questions/1823058/how-to-print-number-with-commas-as-thousands-separators
-
-    def copyBudgetArea(self):
-        # TODO: try to copy and paste excel to word
-        # if not possible, try to copy excel to clipboard and manually paste special
-        # if not possible, probably give up lol
-        self.getDataSheet()
+        self.docxSearchAndReplace("consumption", f"{self.consumption:,}".replace(",", "."))
 
     def saveDocx(self):
+        # self.docx.save(f"../DOCS/999-PTC-70-{self.reference}-21 R0 (SFCR-{self.name}).docx")
         self.docx.save("../test.docx")
 
     def generateQuote(self):
@@ -151,9 +146,9 @@ test_client = Client(
 )
 # test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
 test_client.generateSheet()
-# test_client.generateQuote()
-os.startfile("F:/Google Drive/Projetos/test.xlsx")  # for testing purposes
-# os.startfile('F:/Google Drive/Projetos/test.docx') #for testing purposes
+test_client.generateQuote()
+# os.startfile("F:/Google Drive/Projetos/test.xlsx")  # for testing purposes
+os.startfile("F:/Google Drive/Projetos/test.docx")  # for testing purposes
 
 
 """ 
