@@ -4,6 +4,8 @@ import re
 from openpyxl import load_workbook
 from docx import Document
 
+# from docx2pdf import convert #TODO: implement export docx as pdf
+
 SHEET_VERSION = "13-JULHO-2021"
 CONSUMPTION_TABLE = "HCONSUMO"
 INVERTER_PANEL = "Preço SFCR-GROWATT PHONO 450Wp"
@@ -105,9 +107,6 @@ class Client:
         self.saveSheet()
         print("Success! Sheet generated.")
 
-    def getDataSheet(self):
-        self.sheet = load_workbook("../test.xlsx", data_only=True)
-
     def docxSearchAndReplace(self, oldText, newText):
         for p in self.docx.paragraphs:
             if oldText in p.text:
@@ -117,15 +116,12 @@ class Client:
 
     def populateDocx(self):
         self.docxSearchAndReplace("fullName", self.name)
-        self.docxSearchAndReplace("reference", str(getReferenceNumber()))  # not replacing all reference tags
+        self.docxSearchAndReplace("reference", f"{self.reference}")
         self.docxSearchAndReplace("date", getCurrentDate())
         if self.city == "":
             self.docxSearchAndReplace("location", statesDict[self.state])
         else:
-            self.docxSearchAndReplace(
-                "location",
-                (self.city + "/" + self.state),
-            )
+            self.docxSearchAndReplace("location", f"{self.city}/{self.state}")
         self.docxSearchAndReplace("consumption", f"{self.consumption:,}".replace(",", "."))
 
     def saveDocx(self):
@@ -149,15 +145,14 @@ def main():
     # test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
     test_client.generateSheet()
     test_client.generateQuote()
-    # os.startfile("F:/Google Drive/Projetos/test.xlsx")  # for testing purposes
     os.startfile("F:/Google Drive/Projetos/test.docx")  # for testing purposes
+    os.startfile("F:/Google Drive/Projetos/test.xlsx")  # for testing purposes
 
 
 if __name__ == "__main__":
     main()
 """     
-    TO DO:  CLI
-            GUI
+    TO DO:  GUI
             
     MAYBE TO DO:
                 e-mail integration
