@@ -1,5 +1,6 @@
 import os
 import datetime
+import re
 from openpyxl import load_workbook
 from docx import Document
 
@@ -46,8 +47,8 @@ def getReferenceNumber():
 
     filtered_dir_list = filter(filterTempFiles, os.listdir("../DOCS"))
     latest_file = sorted(filtered_dir_list, reverse=True)[0]
-    # TODO: regex to get latest reference number then add 1 and return it
-    return 1234
+    reference = re.search("(?<=999-PTC-70-)\d*(?=-2)", latest_file)
+    return int(reference.group(0)) + 1
 
 
 class Client:
@@ -138,24 +139,23 @@ class Client:
         print("Success! Quote generated.")
 
 
-test_client = Client(
-    "Eduardo Moura Tavares",
-    500,
-    "ES",
-    "Praia de Itaparica-Vila Velha",
-)
-# test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
-test_client.generateSheet()
-test_client.generateQuote()
-# os.startfile("F:/Google Drive/Projetos/test.xlsx")  # for testing purposes
-os.startfile("F:/Google Drive/Projetos/test.docx")  # for testing purposes
+def main():
+    test_client = Client(
+        "Eduardo Moura Tavares",
+        500,
+        "ES",
+        "Praia de Itaparica-Vila Velha",
+    )
+    # test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
+    test_client.generateSheet()
+    test_client.generateQuote()
+    # os.startfile("F:/Google Drive/Projetos/test.xlsx")  # for testing purposes
+    os.startfile("F:/Google Drive/Projetos/test.docx")  # for testing purposes
 
 
-""" 
 if __name__ == "__main__":
     main()
-    
-    
+"""     
     TO DO:  CLI
             GUI
             
