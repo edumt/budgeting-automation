@@ -147,8 +147,8 @@ def main():
     # test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
     test_client.generateSheet()
     test_client.generateQuote()
-    os.startfile("F:/Google Drive/Projetos/test.docx")  # for testing purposes
-    os.startfile("F:/Google Drive/Projetos/test.xlsx")  # for testing purposes
+    os.startfile("F:/Google Drive/Projetos/Pessoais/test.docx")  # for testing purposes
+    os.startfile("F:/Google Drive/Projetos/Pessoais/test.xlsx")  # for testing purposes
 
 
 if __name__ == "__main__":
