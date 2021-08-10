@@ -1,4 +1,4 @@
-## BVK Energia Solar - Budgeting automation (in Python)
+## BVK Energia Solar - Quoting automation (in Python)
 
 Script to generate photovoltaic systems quotes
 
