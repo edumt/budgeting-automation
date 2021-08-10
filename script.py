@@ -87,18 +87,20 @@ class Client:
             self.sheet[INVERTER_PANEL][OPTION_3].value = NEAREST_PANELS
 
     def saveSheet(self):
-        # try:
-        #    # f"../{statesDict[self.state]}/{self.name}""
-        #    os.mkdir(f"../SHEETS/{self.name}")
-        # except OSError as error:
-        #   if error.errno == 17:
-        #      # If directory already exists do nothing
-        #     pass
-        # else:
-        #   # prob just raise exception again instead of printing
-        #   raise
-        #    #print(error)
-        # self.sheet.save(f"../SHEETS/{self.name}/GERADORES-{self.name}-ALDO-{SHEET_VERSION}.xlsx")
+        """
+        try:
+            # f"../{statesDict[self.state]}/{self.name}""
+            os.mkdir(f"../SHEETS/{self.name}")
+        except OSError as error:
+            if error.errno == 17:
+                # If directory already exists do nothing
+                pass
+            else:
+                # prob just raise exception again instead of printing
+                raise
+                #print(error)
+        self.sheet.save(f"../SHEETS/{self.name}/GERADORES-{self.name}-ALDO-{SHEET_VERSION}.xlsx")
+        """
         self.sheet.save("../test.xlsx")
 
     def generateSheet(self):
