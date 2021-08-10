@@ -11,14 +11,15 @@ CONSUMPTION_TABLE = "HCONSUMO"
 INVERTER_PANEL = "Preço SFCR-GROWATT PHONO 450Wp"
 NEAREST_PANELS = "=+VLOOKUP(MIN('GROWATT-PHONO 450Wp'!D:D),'GROWATT-PHONO 450Wp'!D:E,2,0)"
 
-# sheet cells constants
+# sheet cells constants:
 CONSUMPTION = "D18"
 NAME = "C4"
 PRICE_ADJUSTMENT = "H44"  # TODO: dinamically adjust price
 OPTION_1 = "D11"
 OPTION_2 = "F11"
 OPTION_3 = "H11"
-# QUOTE_AREA = "B3:H32"
+
+# QUOTE_AREA = "B3:H32" -> probably won't be used
 
 statesDict = {
     "ES": "ESPÍRITO SANTO",
@@ -86,6 +87,10 @@ class Client:
             self.sheet[INVERTER_PANEL][OPTION_2].value = NEAREST_PANELS + "-2"
             self.sheet[INVERTER_PANEL][OPTION_3].value = NEAREST_PANELS
 
+    def adjustPrice(self):
+        if self.state != "ES":
+            self.sheet[INVERTER_PANEL][PRICE_ADJUSTMENT].value = 0.07
+
     def saveSheet(self):
         """
         try:
@@ -96,7 +101,7 @@ class Client:
                 # If directory already exists do nothing
                 pass
             else:
-                # prob just raise exception again instead of printing
+                # raise exception again instead of printing, for now
                 raise
                 #print(error)
         self.sheet.save(f"../SHEETS/{self.name}/GERADORES-{self.name}-ALDO-{SHEET_VERSION}.xlsx")
@@ -106,6 +111,7 @@ class Client:
     def generateSheet(self):
         self.sheet = getFormulaSheet()
         self.populateSheet()
+        self.adjustPrice()
         self.saveSheet()
         print("Success! Sheet generated.")
 
@@ -147,7 +153,7 @@ def main():
     # test_client = Client('Eduardo Moura Tavares', 5000, 'mg')
     test_client.generateSheet()
     test_client.generateQuote()
-    os.startfile("F:/Google Drive/Projetos/Pessoais/test.docx")  # for testing purposes
+    # os.startfile("F:/Google Drive/Projetos/Pessoais/test.docx")  # for testing purposes
     os.startfile("F:/Google Drive/Projetos/Pessoais/test.xlsx")  # for testing purposes
 
 
